@@ -7,40 +7,31 @@ class App extends Component {
   render() {
     return (
       <div className="App">
-        <div className="age">Your Age: <span>{this.props.age}</span></div>
-        <button className="ageUp" onClick={this.props.onAgeUp}>Age Up</button>
-        <button className="ageDown" onClick={this.props.onAgeDown}>Age Down</button>
-        <hr/>
-        <div>History</div>
-        <div>
-          <ul>
-            {
-              this.props.history.map(el => (
-                <li className="historyItem" key={el.id} onClick={ () => this.props.onDelItem(el.id)}>
-                  {el.age}
-                </li>
-              ))
-            }
-          </ul>
+        <div className="col">
+          <div><span>A:</span>{this.props.a}</div>
+          <button onClick={() => this.props.updateA(this.props.b)}>Update A</button>
+        </div>
+        <div className="col">
+          <div><span>B:</span>{this.props.b}</div>
+          <button onClick={() => this.props.updateB(this.props.a)}>Update B</button>
         </div>
       </div>
     );
   }
 }
 
-const mapStateToProps = (state) => {
+const mapStoreToProps = (store) => {
   return {
-    age: state.age,
-    history: state.history,
+    a: store.rA.a,
+    b: store.rB.b
   }
 }
 
-const mapDispachToProps = (dispatch) => {
+const mapDispatchToProps = (dispatch) => {
   return {
-    onAgeUp: () => dispatch({type: 'AGE_UP', value: 1}),
-    onAgeDown: () => dispatch({type: 'AGE_DOWN', value: 1}),
-    onDelItem: (id) => dispatch({type: 'DEL_ITEM', key: id})
+    updateA: (b) => dispatch({type: 'UPDATE_A', b: b}),
+    updateB: (a) => dispatch({type: 'UPDATE_B', a: a}),
   }
 }
 
-export default connect(mapStateToProps, mapDispachToProps)(App);
+export default connect(mapStoreToProps, mapDispatchToProps)(App);
