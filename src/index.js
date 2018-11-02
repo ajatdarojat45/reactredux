@@ -8,7 +8,7 @@ import App from './App';
 import reducerA from './store/reducerA'
 import reducerB from './store/reducerB'
 
-import {createStore, combineReducers} from 'redux';
+import {createStore, combineReducers, applyMiddleware} from 'redux';
 import {Provider} from 'react-redux';
 
 const rootReducer = combineReducers({
@@ -16,7 +16,17 @@ const rootReducer = combineReducers({
   rB: reducerB,
 });
 
-const store = createStore(rootReducer);
+const logAction = store => {
+  return next => {
+    return action => {
+      const result = next(action);
+      console.log(`caugh in the middleware ${JSON.stringify(result)}`);
+      return result;
+    }
+  }
+};
+
+const store = createStore(rootReducer, applyMiddleware(logAction));
 
 
 ReactDOM.render(<Provider store={store}><App /></Provider>, document.getElementById('root'));
