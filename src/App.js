@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import logo from './logo.svg';
 import './App.css';
 import {connect} from 'react-redux';
+import * as actionCreator from './store/actions/actions';
 
 class App extends Component {
   render() {
@@ -15,6 +16,7 @@ class App extends Component {
           <div><span>B:</span>{this.props.b}</div>
           <button onClick={() => this.props.updateB(this.props.a)}>Update B</button>
         </div>
+        {this.props.loading && <img src={logo} className="App-logo"/>}
       </div>
     );
   }
@@ -23,14 +25,15 @@ class App extends Component {
 const mapStoreToProps = (store) => {
   return {
     a: store.rA.a,
-    b: store.rB.b
+    b: store.rB.b,
+    loading: store.rA.loading,
   }
 }
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    updateA: (b) => dispatch({type: 'UPDATE_A', b: b}),
-    updateB: (a) => dispatch({type: 'UPDATE_B', a: a}),
+    updateA: (b) => dispatch(actionCreator.updateA(b : b)),
+    updateB: (a) => dispatch(actionCreator.updateB(a : a)),
   }
 }
 

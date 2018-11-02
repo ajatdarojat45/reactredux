@@ -5,28 +5,29 @@ import App from './App';
 // import * as serviceWorker from './serviceWorker';
 
 // import reducer from './store/reducer';
-import reducerA from './store/reducerA'
-import reducerB from './store/reducerB'
+import reducerA from './store/reducers/reducerA'
+import reducerB from './store/reducers/reducerB'
 
-import {createStore, combineReducers, applyMiddleware} from 'redux';
 import {Provider} from 'react-redux';
+import {createStore, combineReducers, applyMiddleware} from 'redux';
+import thunk from 'redux-thunk';
 
 const rootReducer = combineReducers({
   rA: reducerA,
   rB: reducerB,
 });
 
-const logAction = store => {
-  return next => {
-    return action => {
-      const result = next(action);
-      console.log(`caugh in the middleware ${JSON.stringify(result)}`);
-      return result;
-    }
-  }
-};
+// const logAction = store => {
+//   return next => {
+//     return action => {
+//       const result = next(action);
+//       console.log(`caugh in the middleware ${JSON.stringify(result)}`);
+//       return result;
+//     }
+//   }
+// };
 
-const store = createStore(rootReducer, applyMiddleware(logAction));
+const store = createStore(rootReducer, applyMiddleware(thunk));
 
 
 ReactDOM.render(<Provider store={store}><App /></Provider>, document.getElementById('root'));

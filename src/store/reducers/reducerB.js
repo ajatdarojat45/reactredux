@@ -7,7 +7,7 @@ const reducer = (state = initialState, action) => {
     case "UPDATE_B":
       return {
         ...state,
-        b: action.a + state.b
+        b: action.value + state.b
       }
       break;
   }
